@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# Slackware build script for ttf-ricty
+
+# Copyright 2021 Biwa <lqt@lqt.moe>
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+cd $(dirname $0) ; CWD=$(pwd)
+
+PRGNAM=ttf-ricty
+VERSION=${VERSION:-4.1.1}
+MIGU1M_VERSION=${MIGU1M_VERSION:-20200307}
+INCONSOLATA_VERSION=${INCONSOLATA_VERSION:-3.000}
+BUILD=${BUILD:-1}
+TAG=${TAG:-_lqt}
+PKGTYPE=${PKGTYPE:-tgz}
+
+ARCH=noarch
+
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
+  exit 0
+fi
+
+TMP=${TMP:-/tmp/lqt-build}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+mkdir $PRGNAM-$VERSION
+unzip $CWD/migu-1m-$MIGU1M_VERSION.zip -d $PRGNAM-$VERSION
+unzip $CWD/v$INCONSOLATA_VERSION.zip -d $PRGNAM-$VERSION
+cd $PRGNAM-$VERSION
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+sh $CWD/ricty_generator-$VERSION.sh \
+  Inconsolata-$INCONSOLATA_VERSION/fonts/ttf/Inconsolata-Regular.ttf \
+  Inconsolata-$INCONSOLATA_VERSION/fonts/ttf/Inconsolata-Bold.ttf \
+  migu-1m-$MIGU1M_VERSION/migu-1m-regular.ttf \
+  migu-1m-$MIGU1M_VERSION/migu-1m-bold.ttf
+
+mkdir -p $PKG/usr/share/fonts/TTF
+install -m0644 \
+  Ricty{,Discord}-{Regular,Bold}.ttf \
+  $PKG/usr/share/fonts/TTF
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp $CWD/ricty_generator-$VERSION.sh $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/migu-1m-$MIGU1M_VERSION
+cp -a \
+  migu-1m-$MIGU1M_VERSION/migu-README.txt \
+  migu-1m-$MIGU1M_VERSION/ipag00303 \
+  migu-1m-$MIGU1M_VERSION/mplus-TESTFLIGHT-063a \
+  $PKG/usr/doc/$PRGNAM-$VERSION/migu-1m-$MIGU1M_VERSION
+
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/Inconsolata-$INCONSOLATA_VERSION
+cp -a \
+  Inconsolata-$INCONSOLATA_VERSION/AUTHORS.txt \
+  Inconsolata-$INCONSOLATA_VERSION/CONTRIBUTORS.txt \
+  Inconsolata-$INCONSOLATA_VERSION/DESCRIPTION.en_us.html \
+  Inconsolata-$INCONSOLATA_VERSION/FONTLOG.txt \
+  Inconsolata-$INCONSOLATA_VERSION/OFL.txt \
+  Inconsolata-$INCONSOLATA_VERSION/README.md \
+  Inconsolata-$INCONSOLATA_VERSION/documentation \
+  $PKG/usr/doc/$PRGNAM-$VERSION/Inconsolata-$INCONSOLATA_VERSION
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE

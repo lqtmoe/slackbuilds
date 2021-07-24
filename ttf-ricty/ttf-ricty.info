@@ -1,0 +1,14 @@
+PRGNAM="ttf-ricty"
+VERSION="4.1.1"
+HOMEPAGE="https://rictyfonts.github.io/"
+DOWNLOAD="https://rictyfonts.github.io/files/ricty_generator-4.1.1.sh \
+          https://osdn.net/projects/mix-mplus-ipa/downloads/72511/migu-1m-20200307.zip \
+          https://github.com/googlefonts/Inconsolata/archive/refs/tags/v3.000.zip"
+MD5SUM="857fbc4df47af65c762a488af1498c12 \
+        aaf550f0b79ab8d2a902acb9f675b256 \
+        2c4fbeaadc342ec49e374e9a544fd737"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
+REQUIRES="fontforge"
+MAINTAINER="Biwa"
+EMAIL="lqt@lqt.moe"
