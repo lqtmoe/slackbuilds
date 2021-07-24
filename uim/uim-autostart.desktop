@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=uim
+GenericName=Input Method
+Comment=Start Input Method
+Exec=uim-autostart
+Icon=/usr/share/uim/pixmaps/uim-icon.png
+Terminal=false
+NotShowIn=GNOME;XFCE;KDE

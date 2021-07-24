@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=uim-qt5
+GenericName=Input Method
+Comment=Start Input Method (Qt5 version)
+Exec=uim-autostart qt5
+Icon=/usr/share/uim/pixmaps/uim-icon.png
+Terminal=false
+OnlyShowIn=KDE
+NotShowIn=GNOME;XFCE

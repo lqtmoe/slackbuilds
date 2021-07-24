@@ -1,0 +1,24 @@
+From 7e39241344ad0663409e836560ae6b5eb231e1fc Mon Sep 17 00:00:00 2001
+From: "HIGUCHI Daisuke (VDR dai)" <dai@debian.org>
+Date: Fri, 14 Aug 2020 12:33:55 +0900
+Subject: [PATCH] support GCC-10.
+
+taken from https://bugs.gentoo.org/706906
+created by Jeroen Roovers <jer@gentoo.org>.
+---
+ include/private/gc_priv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/private/gc_priv.h b/include/private/gc_priv.h
+index ec93ffe..ecd0526 100644
+--- a/include/private/gc_priv.h
++++ b/include/private/gc_priv.h
+@@ -1979,7 +1979,7 @@ void GC_err_puts(const char *s);
+   /* the signal mask.						*/
+ # define SETJMP(env) sigsetjmp(env, 1)
+ # define LONGJMP(env, val) siglongjmp(env, val)
+-# define JMP_BUF sigjmp_buf
++# define JMP_BUF extern sigjmp_buf
+ #else
+ # ifdef ECOS
+ #   define SETJMP(env)  hal_setjmp(env)
