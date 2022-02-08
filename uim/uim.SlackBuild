@@ -26,7 +26,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=uim
 VERSION=${VERSION:-1.8.8}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-_lqt}
 PKGTYPE=${PKGTYPE:-tgz}
 
@@ -104,14 +104,6 @@ CXXFLAGS="$SLKCFLAGS" \
 
 make
 make install DESTDIR=$PKG
-
-mkdir -p $PKG/usr/bin
-install -m0755 $CWD/uim-autostart $PKG/usr/bin/uim-autostart
-
-mkdir -p $PKG/etc/xdg/autostart
-install -m0644 $CWD/uim-autostart.desktop $PKG/etc/xdg/autostart
-install -m0644 $CWD/uim-autostart-qt5.desktop $PKG/etc/xdg/autostart
-install -m0644 $CWD/uim-autostart-gtk3.desktop $PKG/etc/xdg/autostart
 
 # Don't ship .la files:
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
