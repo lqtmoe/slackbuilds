@@ -1,0 +1,12 @@
+PRGNAM="rpg2000-rtp"
+VERSION="2019"
+HOMEPAGE="https://tkool.jp/"
+DOWNLOAD="https://tkool.jp/products/rtp/2000rtp.zip \
+          https://tkool.jp/products/rtp/RTP_patchk_190612.zip"
+MD5SUM="a1151e149185845e7968a67d38ce53aa \
+        0aea9dfc5470c8bc0a0a98ce2082dbc5"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
+REQUIRES="unshield"
+MAINTAINER="Biwa"
+EMAIL="lqt@lqt.moe"
