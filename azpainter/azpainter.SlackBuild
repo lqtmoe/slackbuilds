@@ -25,7 +25,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=azpainter
-VERSION=${VERSION:-3.0.3}
+VERSION=${VERSION:-3.0.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_lqt}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -82,8 +82,10 @@ CXXFLAGS="$SLKCFLAGS" \
   --prefix=/usr \
   --docdir=/usr/doc/$PRGNAM-$VERSION
 
-make
-make install DESTDIR=$PKG
+( cd build
+  ninja
+  DESTDIR=$PKG ninja install
+)
 
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
